@@ -1,45 +1,50 @@
+# Libraries
 import turtle
 import math
 import time
 
-start = time.time()
 
+# Set-up
+start = time.time()
 size = 400
 turtle.tracer(0)
-alex = turtle.Turtle()
-alex.ht()
-alex.pu()
-alex.goto(-size/2, -size*0.75)
-alex.pd()
-alex.left(108)
-alex.fillcolor('black')
+pen = turtle.Turtle()
+pen.ht()
+pen.pu()
+pen.goto(-size/2, -size*0.75)
+pen.pd()
+pen.left(108)
+pen.fillcolor('black')
 
+
+# Constants
 offset = math.sin(math.radians(108))/math.sin(math.radians(36))
 cos = [offset*math.cos(math.radians(108 - i * 72)) for i in range(5)]
 sin = [offset*math.sin(math.radians(108 - i * 72)) for i in range(5)]
 ratio = 2+2*math.sin(math.radians(18))
 
 
-def pentagon(okay, length):
-    okay.begin_fill()
+# Drawing Function
+def pentagon(pen, length):
+    pen.begin_fill()
     for i in range(5):
-        okay.forward(length)
-        okay.right(72)
-    okay.end_fill()
+        pen.forward(length)
+        pen.right(72)
+    pen.end_fill()
 
-def recursion(bruh, length, depth):
+def recursion(pen, length, depth):
     if depth <= 0:
-        pentagon(bruh, length)
+        pentagon(pen, length)
 
     else:
         length/=ratio
         for i in range(5):
-            recursion(bruh, length, depth-1)
-            bruh.pu()
-            bruh.goto(bruh.xcor()+length*cos[i], bruh.ycor()+length*sin[i])
-            bruh.pd()
+            recursion(pen, length, depth-1)
+            pen.pu()
+            pen.goto(pen.xcor()+length*cos[i], pen.ycor()+length*sin[i])
+            pen.pd()
                
-
-recursion(alex, size, 5)
+# Run code
+recursion(pen, size, 5)
 turtle.update()
 print(f'{time.time()-start} seconds')
